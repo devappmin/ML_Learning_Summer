@@ -19,7 +19,7 @@ for n in tqdm(range(1, current + 1)):
         'https://search.naver.com/search.naver?ie=UTF-8&query=%EB%A1%9C%EB%98%90%EB%B2%88%ED%98%B8+{}%ED%9A%8C&sm=chr_hty'.format(n))
     html = BeautifulSoup(url.text, features="html.parser")
 
-    box = [n]
+    box = []
 
     numbers = html.find('div', attrs={'class': 'num_box'}).find_all('span')
     for i in numbers:
@@ -28,6 +28,9 @@ for n in tqdm(range(1, current + 1)):
 
     total.append(box)
 
+index = [f'{n}회차' for n in range(1, current + 1)]
+
 df = pd.DataFrame(
-    total, columns=['회차', '1번째번호', '2번째번호', '3번째번호', '4번째번호', '5번째번호', '6번째번호', '보너스 번호'])
+    total, columns=['1번째번호', '2번째번호', '3번째번호', '4번째번호', '5번째번호', '6번째번호', '보너스 번호'])
+df.index = index
 df.to_excel('result.xlsx')
